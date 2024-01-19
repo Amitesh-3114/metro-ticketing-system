@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Metro Ticketing Platform</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        #menu {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        #output {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Metro Ticketing Platform</h1>
+
+    <div id="menu">
+        <button onclick="displayStations()">Display Metro Stations</button>
+        <button onclick="buyTicket()">Buy Ticket</button>
+    </div>
+
+    <div id="output"></div>
+
+    <script>
+        // Function to interact with the C program and display output
+        function executeCommand(command) {
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", "cgi-bin/metro_ticketing.cgi?command=" + encodeURIComponent(command), true);
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    document.getElementById("output").innerHTML = xhr.responseText;
+                }
+            };
+
+            xhr.send();
+        }
+
+        // Function to display metro stations
+        function displayStations() {
+            executeCommand("1");
+        }
+
+        // Function to buy a metro ticket
+        function buyTicket() {
+            var source = prompt("Enter source station:");
+            var destination = prompt("Enter destination station:");
+
+            if (source && destination) {
+                executeCommand("2 " + encodeURIComponent(source) + " " + encodeURIComponent(destination));
+            }
+        }
+    </script>
+</body>
+</html>
