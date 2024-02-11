@@ -1,15 +1,21 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
 // Structure to represent a metro station
 struct MetroStation {
     char name[50];
     struct MetroStation* prev;
     struct MetroStation* next;
-    int statno;
+    int statdis;
 };
-struct MetroStation *head1 = NULL,*head2 = NULL,*temp = NULL,*temp1 = NULL,*mid1=NULL,*mid2=NULL;
+struct MetroStation *head1 = NULL,*head2 = NULL,*temp =NULL ,*temp1 = NULL,*mid1= NULL,*mid2=NULL;
+
+struct MainNode{
+    int dis;
+    struct MetroStation *link1;
+    struct MetroStation *link2;
+};
+
 
 // Function to create a new metro station
 struct MetroStation* createStation(const char* name,int n) {
@@ -17,7 +23,7 @@ struct MetroStation* createStation(const char* name,int n) {
     strcpy(newStation->name, name);
     newStation->prev = NULL;
     newStation->next = NULL;
-    newStation->statno=n;
+    newStation->statdis=n;
     return newStation;
 }
 
@@ -120,29 +126,79 @@ void displayMetro(){
    
 }
 
+int CalculatePrice(char source[],char destination[]){
+    int ps1=0,ps2=0,gs1=0,gs2=0,a=0,b=0;
 
-int DisFmid(char stat[]) {
-    int a=0,b=0;
+    //finding source station
+    //check pirple line
     temp=head1;
     while (temp != NULL) {
-        if (strcmp(temp->name, stat) == 0) {
-            a=abs(temp->statno-mid1->statno);
-            return a; 
+        if (strcmp(temp->name,source) == 0) {
+            ps1=temp->statdis;
+            break; 
         }
         temp = temp->next;
     }
 
+    //check green line
     temp1=head2;
     while (temp1 != NULL) {
-        if (strcmp(temp1->name, stat) == 0) {
-            b=abs(temp1->statno-mid2->statno);
-            return b;
+        if (strcmp(temp1->name,source) == 0) {
+            gs1=temp1->statdis;
+            break; 
         }
         temp1 = temp1->next;
     }
 
+    //finding destination station
+    //check purple line
+    temp=head1;
+    while (temp != NULL) {
+        if (strcmp(temp->name,destination) == 0) {
+            ps2=temp->statdis;
+            break; 
+        }
+        temp = temp->next;
+    }
+
+    //check greenline
+    temp1=head2;
+    while (temp1 != NULL) {
+        if (strcmp(temp1->name,destination) == 0) {
+            gs2=temp1->statdis;
+            break; 
+        }
+        temp1 = temp1->next;
+    }
+
+    //calucalte price
+    int x=mid1->statdis;
+    int y=mid2->statdis;
+
+    //if stations on either side of majestic - purple
+    if (ps1 !=0 && ps2 !=0 && ((ps1<x && ps2<x) || (ps1>x && ps2>x) || (ps1>x && ps2<x) || (ps1<x && ps2>x))){
+        a=abs(ps2-ps1);
+        return a;
+    }
+    //if stations on either side of majestic - green
+    else if (gs1 !=0 && gs2 !=0 && ((gs1<y && gs2<y) || (gs1>y && gs2>y) || (gs1>y && gs2<y) || (gs1<y && gs2>y))){
+        b=abs(gs2-gs1);
+        return b;
+    }
+    //if stations on both lines 
+    else if (ps1 !=0 && gs2 !=0){
+        a=abs(x-ps1);
+        b=abs(y-gs2);
+        return a+b;
+    }
+    else if (gs1 !=0 && ps2 !=0){
+        a=abs(x-ps2);
+        b=abs(y-gs1);
+        return a+b;
+    }
 
 }
+
 
 void buyTicket() {
     char source[50], destination[50];
@@ -158,12 +214,8 @@ void buyTicket() {
         return;
     }
 
-    int x=DisFmid(source);
-    printf("%d",x);
-    int y=DisFmid(destination);
-    printf("%d",y);
-    int count=x+y;
-    
+    int count = CalculatePrice(source,destination);
+
     totalCost=10*count;
 
     // Display ticket information
@@ -192,6 +244,10 @@ void free1 (struct MetroStation* head) {
 int main() {
     int choice,ch;
 
+    struct MainNode* mnode = (struct MainNode*)malloc(sizeof(struct MainNode));
+    mnode->dis=0;
+    mnode->link1=head1;
+    mnode->link2=head2;
     CreatePurpleLine();
     CreateGreenLine();
     
