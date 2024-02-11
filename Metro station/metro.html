@@ -1,69 +1,214 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Metro Ticketing Platform</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-        }
-
-        h1 {
-            text-align: center;
-        }
-
-        #menu {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 20px;
-        }
-
-        #output {
-            margin-top: 20px;
-        }
+    <style type="text/css">
+        /* Your CSS styles here */
     </style>
+    
 </head>
-<body>
-    <h1>Metro Ticketing Platform</h1>
 
-    <div id="menu">
-        <button onclick="displayStations()">Display Metro Stations</button>
-        <button onclick="buyTicket()">Buy Ticket</button>
+<body>
+    <h1>METRO TICKETING PLATFORM</h1>
+
+    <label for="userType">Select User Type:</label>
+    <select id="userType" onchange="handleUserTypeSelection()">
+        <option value="" selected disabled>Select User Type</option>
+        <option value="admin">Admin</option>
+        <option value="user">User</option>
+    </select>
+
+    <div id="adminOptions" style="display: none;">
+        <h2>Admin Options</h2>
+
+        <label for="adminActions">Select Admin Action:</label>
+        <select id="adminActions" onchange="handleAdminActionSelection()">
+            <option value="" selected disabled>Select Admin Action</option>
+            <option value="buyTickets">Buy Tickets</option>
+            <option value="displayMap">Display Map</option>
+            <option value="addStations">Add Stations</option>
+            <option value="deleteStations">Delete Stations</option>
+        </select>
+
+        <div id="addStationsSection" style="display: none;">
+            <h4>Add Stations</h4>
+            <label for="stationName">Station Name:</label>
+            <input type="text" id="stationName">
+            <label for="position">Position:</label>
+            <select id="position">
+                <option value="front">Add in Front</option>
+                <option value="end">Add at End</option>
+            </select>
+            <button onclick="addStation()">Add Station</button>
+        </div>
+
+        <div id="deleteStationsSection" style="display: none;">
+            <!-- Add code for delete stations section if needed -->
+        </div>
     </div>
 
-    <div id="output"></div>
+    <div id="userOptions" style="display: none;">
+        <h2>User Options</h2>
 
-    <script>
-        // Function to interact with the C program and display output
-        function executeCommand(command) {
-            var xhr = new XMLHttpRequest();
-            xhr.open("GET", "cgi-bin/metro_ticketing.cgi?command=" + encodeURIComponent(command), true);
+        <label for="userActions">Select User Action:</label>
+        <select id="userActions">
+            <option value="" selected disabled>Select</option>
 
-            xhr.onreadystatechange = function () {
-                if (xhr.readyState == 4 && xhr.status == 200) {
-                    document.getElementById("output").innerHTML = xhr.responseText;
-                }
-            };
+            <option value="buyTickets">Buy Tickets</option>
+            <option value="displayMap">Display Map</option>
+        </select>
 
-            xhr.send();
-        }
+        <label for="source">Source:</label>
+        <select id="source">
 
-        // Function to display metro stations
-        function displayStations() {
-            executeCommand("1");
-        }
+            <option value="" selected disabled>Select Source</option>
+            <option value="silk institute">Silk Institute</option>
+<option value="talaghattapura">Talaghattapura</option>
+<option value="vajarahalli">Vajarahalli</option>
+<option value="doddakalasandra">Doddakalasandra</option>
+<option value="konankunte cross">Konankunte Cross</option>
+<option value="yelechenahalli">Yelechenahalli</option>
+<option value="jp nagar">Jaya Prakash Nagar</option>
+<option value="banashankari">Banashankari</option>
+<option value="rashtreeya vidyalaya road">Rashtreeya Vidyalaya Road</option>
+<option value="jayanagar">Jayanagar</option>
+<option value="southend circle">Southend Circle</option>
+<option value="lalbagh">Lalbagh</option>
+<option value="national college">National College</option>
+<option value="krishnarajendra market">Krishna Rajendra Market(K.R. Market)</option>
+<option value="chickpet">Chickpet</option>
+<option value="majestic">Majestic</option>
+<option value="sampige road">Sampige Road</option>
+<option value="srirampura">Srirampura</option>
+<option value="mahakavi kuvempu road">Mahakavi Kuvempu Road</option>
+<option value="rajajinagar">Rajajinagar</option>
+<option value="mahalakshmi">Mahalakshmi</option>
+<option value="sandal soap factory">Sandal Soap Factory</option>
+<option value="yeshwantpur">Yeshwantpur</option>
+<option value="goraguntepalya">Goraguntepalya</option>
+<option value="peenya">Peenya</option>
+<option value="peenya industry">Peenya Industry</option>
+<option value="jalahalli">Jalahalli</option>
+<option value="dasarahalli">Dasarahalli</option>
+<option value="nagasandra">Nagasandra</option>
+          
+            <option value="challaghatta">Challaghatta</option>
+<option value="kengeri">Kengeri</option>
+<option value="kengeri">Kengeri bus terminal</option>
+<option value="pattanagere">Pattanagere</option>
+<option value="jnanabharati">Jnanabharati</option>
+<option value="rajarajeshwari nagar">RR Nagar</option>
+<option value="mysore road">Mysore Road</option>
+<option value="deepanjali nagar">Deepanjali Nagar</option>
+<option value="attiguppe">Attiguppe</option>
+<option value="vijaynagar">Vijaynagar</option>
+<option value="hosahalli">Hosahalli</option>
+<option value="magadi road">Magadi Road</option>
+<option value="majestic">Majestic</option>
+<option value="central college">Central College</option>
+<option value="vidhana soudha">Vidhana Soudha</option>
+<option value="cubbon park">Cubbon Park</option>
+<option value="mg road">MG Road</option>
+<option value="trinity">Trinity</option>
+<option value="halasuru">Halasuru</option>
+<option value="indiranagar">Indiranagar</option>
+<option value="sv road">SV Road</option>
+<option value="baiyapanahalli">Baiyapanahalli</option>
+<option value="benniganahalli">Benniganahalli</option>
+<option value="krishnarajapura (K.R.Pura)">Krishnarajapura (K.R.Pura)</option>
+<option value="singayyanapalya">Singayyanapalya</option>
+<option value="garudacharapalya">Garudacharapalya</option>
+<option value="hoodi">Hoodi</option>
+<option value="seetharamapalya">Seetharamapalya</option>
+<option value="kundalahalli">Kundalahalli</option>
+<option value="nallurhalli">Nallurhalli</option>
+<option value="sri sathya sai hospital">Sri Sathya Sai Hospital</option>
+<option value="pattanduru agrahara">Pattanduru Agrahara</option>
+<option value="kadugodi tree park">Kadugodi Tree Park</option>
+<option value="hopefarm channasandra">Hopefarm Channasandra</option>
+<option value="whitefield( kadugodi)">Whitefield (Kadugodi)</option>
+            
+        </select>
 
-        // Function to buy a metro ticket
-        function buyTicket() {
-            var source = prompt("Enter source station:");
-            var destination = prompt("Enter destination station:");
+        <label for="destination">Destination:</label>
+        <select id="destination">
+            <option value="" selected disabled>Select Source</option>
+            <option value="silk institute">Silk Institute</option>
+            <option value="talaghattapura">Talaghattapura</option>
+            <option value="vajarahalli">Vajarahalli</option>
+            <option value="doddakalasandra">Doddakalasandra</option>
+            <option value="konankunte cross">Konankunte Cross</option>
+            <option value="yelechenahalli">Yelechenahalli</option>
+            <option value="jp nagar">Jaya Prakash Nagar</option>
+            <option value="banashankari">Banashankari</option>
+            <option value="rashtreeya vidyalaya road">Rashtreeya Vidyalaya Road</option>
+            <option value="jayanagar">Jayanagar</option>
+            <option value="southend circle">Southend Circle</option>
+            <option value="lalbagh">Lalbagh</option>
+            <option value="national college">National College</option>
+            <option value="krishnarajendra market">Krishna Rajendra Market(K.R. Market)</option>
+            <option value="chickpet">Chickpet</option>
+            <option value="majestic">Majestic</option>
+            <option value="sampige road">Sampige Road</option>
+            <option value="srirampura">Srirampura</option>
+            <option value="mahakavi kuvempu road">Mahakavi Kuvempu Road</option>
+            <option value="rajajinagar">Rajajinagar</option>
+            <option value="mahalakshmi">Mahalakshmi</option>
+            <option value="sandal soap factory">Sandal Soap Factory</option>
+            <option value="yeshwantpur">Yeshwantpur</option>
+            <option value="goraguntepalya">Goraguntepalya</option>
+            <option value="peenya">Peenya</option>
+            <option value="peenya industry">Peenya Industry</option>
+            <option value="jalahalli">Jalahalli</option>
+            <option value="dasarahalli">Dasarahalli</option>
+            <option value="nagasandra">Nagasandra</option>
+                      
+                        <option value="challaghatta">Challaghatta</option>
+            <option value="kengeri">Kengeri</option>
+            <option value="kengeri">Kengeri bus terminal</option>
+            <option value="pattanagere">Pattanagere</option>
+            <option value="jnanabharati">Jnanabharati</option>
+            <option value="rajarajeshwari nagar">RR Nagar</option>
+            <option value="mysore road">Mysore Road</option>
+            <option value="deepanjali nagar">Deepanjali Nagar</option>
+            <option value="attiguppe">Attiguppe</option>
+            <option value="vijaynagar">Vijaynagar</option>
+            <option value="hosahalli">Hosahalli</option>
+            <option value="magadi road">Magadi Road</option>
+            <option value="majestic">Majestic</option>
+            <option value="central college">Central College</option>
+            <option value="vidhana soudha">Vidhana Soudha</option>
+            <option value="cubbon park">Cubbon Park</option>
+            <option value="mg road">MG Road</option>
+            <option value="trinity">Trinity</option>
+            <option value="halasuru">Halasuru</option>
+            <option value="indiranagar">Indiranagar</option>
+            <option value="sv road">SV Road</option>
+            <option value="baiyapanahalli">Baiyapanahalli</option>
+            <option value="benniganahalli">Benniganahalli</option>
+            <option value="krishnarajapura (K.R.Pura)">Krishnarajapura (K.R.Pura)</option>
+            <option value="singayyanapalya">Singayyanapalya</option>
+            <option value="garudacharapalya">Garudacharapalya</option>
+            <option value="hoodi">Hoodi</option>
+            <option value="seetharamapalya">Seetharamapalya</option>
+            <option value="kundalahalli">Kundalahalli</option>
+            <option value="nallurhalli">Nallurhalli</option>
+            <option value="sri sathya sai hospital">Sri Sathya Sai Hospital</option>
+            <option value="pattanduru agrahara">Pattanduru Agrahara</option>
+            <option value="kadugodi tree park">Kadugodi Tree Park</option>
+            <option value="hopefarm channasandra">Hopefarm Channasandra</option>
+            <option value="whitefield( kadugodi)">Whitefield (Kadugodi)</option>
+                </select>
 
-            if (source && destination) {
-                executeCommand("2 " + encodeURIComponent(source) + " " + encodeURIComponent(destination));
-            }
-        }
-    </script>
+        <button onclick="buyTickets()">Buy Tickets</button>
+    </div>
+
+    <!-- Other HTML content can be added here -->
+
 </body>
+
 </html>
+
