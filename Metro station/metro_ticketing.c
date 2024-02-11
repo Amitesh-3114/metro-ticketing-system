@@ -127,7 +127,7 @@ void displayMetro(){
 }
 
 int CalculatePrice(char source[],char destination[]){
-    int ps1=0,ps2=0,gs1=0,gs2=0,a=0,b=0;
+    int ps1=0,pd2=0,gs1=0,gd2=0,a=0,b=0;
 
     //finding source station
     //check pirple line
@@ -139,6 +139,7 @@ int CalculatePrice(char source[],char destination[]){
         }
         temp = temp->next;
     }
+    printf("\n%d",ps1);
 
     //check green line
     temp1=head2;
@@ -149,54 +150,59 @@ int CalculatePrice(char source[],char destination[]){
         }
         temp1 = temp1->next;
     }
+    printf("\n%d",gs1);
 
     //finding destination station
     //check purple line
     temp=head1;
     while (temp != NULL) {
         if (strcmp(temp->name,destination) == 0) {
-            ps2=temp->statdis;
+            pd2=temp->statdis;
             break; 
         }
         temp = temp->next;
     }
+    printf("\n%d",pd2);
 
     //check greenline
     temp1=head2;
     while (temp1 != NULL) {
         if (strcmp(temp1->name,destination) == 0) {
-            gs2=temp1->statdis;
+            gd2=temp1->statdis;
             break; 
         }
         temp1 = temp1->next;
     }
+    printf("\n%d",gd2);
 
     //calucalte price
     int x=mid1->statdis;
     int y=mid2->statdis;
 
     //if stations on either side of majestic - purple
-    if (ps1 !=0 && ps2 !=0 && ((ps1<x && ps2<x) || (ps1>x && ps2>x) || (ps1>x && ps2<x) || (ps1<x && ps2>x))){
-        a=abs(ps2-ps1);
+    if (ps1 !=0 && pd2 !=0 && ((ps1<x && pd2<x) || (ps1>x && pd2>x) || (ps1>x && pd2<x) || (ps1<x && pd2>x))){
+        a=abs(pd2-ps1);
         return a;
     }
     //if stations on either side of majestic - green
-    else if (gs1 !=0 && gs2 !=0 && ((gs1<y && gs2<y) || (gs1>y && gs2>y) || (gs1>y && gs2<y) || (gs1<y && gs2>y))){
-        b=abs(gs2-gs1);
+    else if (gs1 !=0 && gd2 !=0 && ((gs1<y && gd2<y) || (gs1>y && gd2>y) || (gs1>y && gd2<y) || (gs1<y && gd2>y))){
+        b=abs(gd2-gs1);
         return b;
     }
     //if stations on both lines 
-    else if (ps1 !=0 && gs2 !=0){
+    else if (ps1 !=0 && gd2 !=0){
         a=abs(x-ps1);
-        b=abs(y-gs2);
+        b=abs(y-gd2);
+        printf("%d-%d",a,b);
         return a+b;
     }
-    else if (gs1 !=0 && ps2 !=0){
-        a=abs(x-ps2);
+    else if (gs1 !=0 && pd2 !=0){
+        a=abs(x-pd2);
         b=abs(y-gs1);
+        printf("%d-%d",a,b);
         return a+b;
     }
-
+   return 0;
 }
 
 
@@ -215,7 +221,7 @@ void buyTicket() {
     }
 
     int count = CalculatePrice(source,destination);
-
+    printf("\n%d",count);
     totalCost=10*count;
 
     // Display ticket information
