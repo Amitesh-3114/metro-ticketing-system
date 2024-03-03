@@ -105,7 +105,7 @@ void AddStation(char name[20],int dis,struct MetroStation** head,struct MetroSta
         *tail=newStation;
         printf("\nnew station: %s is added at %dth position.",name,n);
     }
-    else if (n<countStations(head,tail) && n>0 ) {
+    else {
         temp=*head;
         int pos =1;
         while (pos<n-1){
@@ -225,12 +225,12 @@ int CalculatePrice(char source[],char destination[]){
     int y=mid2->statdis;
 
     //if stations on either side of majestic - purple
-    if (ps1 !=0 && pd2 !=0 && ((ps1<x && pd2<x) || (ps1>x && pd2>x) || (ps1>x && pd2<x) || (ps1<x && pd2>x))){
+    if (ps1 !=0 && pd2 !=0){
         a=abs(pd2-ps1);
         return a;
     }
     //if stations on either side of majestic - green
-    else if (gs1 !=0 && gd2 !=0 && ((gs1<y && gd2<y) || (gs1>y && gd2>y) || (gs1>y && gd2<y) || (gs1<y && gd2>y))){
+    else if (gs1 !=0 && gd2 !=0){
         b=abs(gd2-gs1);
         return b;
     }
@@ -314,7 +314,7 @@ int main() {
     if (c==1){
         printf("enter password:");
         scanf("%s",p);
-        if(strcmp(p,"sashurocks")==0){
+        if(strcmp(p,"ADMIN")==0){
 
         do {
             printf("\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
