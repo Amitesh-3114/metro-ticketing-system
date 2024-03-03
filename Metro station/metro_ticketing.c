@@ -7,7 +7,7 @@ struct MetroStation {
     struct MetroStation* next;
     int statdis;
 };
-struct MetroStation *head1 = NULL,*head2 = NULL,*temp =NULL ,*temp1 = NULL,*mid1= NULL,*mid2=NULL,*tail1=NULL,*tail2=NULL;
+struct MetroStation *head1 = NULL,*head2 = NULL,*temp =NULL,*temp1 = NULL,*mid1= NULL,*mid2=NULL,*tail1=NULL,*tail2=NULL;
 
 struct MainNode{
     int dis;
@@ -25,77 +25,18 @@ struct MetroStation* createStation(const char* name,int n) {
     return newStation;
 }
 
-int countStations(struct MetroStation* head,struct MetroStation* tail) {
-    int count=0;
-    temp=head;
-    while(temp != tail){
-        count++;
-    }
-    return count;
-}
-
-void AddStation(char name[20],int dis,struct MetroStation* head,struct MetroStation* tail,int n) {
-    struct MetroStation* newStation=createStation(name,dis);
-    temp=head;
-    if (n==0) {
-        newStation->next=head;
-        head=newStation;
-    }
-    else if (n==countStations(head,tail)) {
-        tail->next=newStation;
-        tail=newStation;
-    }
-    else if (n<countStations(head,tail) && n>0 ) {
-        temp=head;
-        int pos =0;
-        while (pos==n){
-            temp=temp->next;
-            pos++;
-        }
-        temp1=temp->next;
-        newStation->next=temp1;
-        temp->next=newStation;
-    }
-
-}
-void greenLine(){
-    int dis ,n;
-    char name[30];
-     printf("\nenter the index: ");
-     scanf("%d",&n);
-    printf("\nenter the station name: ");
-    scanf("%s",name);
-    printf("\nenter the distance of station: ");
-    scanf("%d",&dis);
-
-    AddStation(name,dis,head2,tail2,n);
-    
-}
-void purpleLine(){
-    int dis ,n;
-    char name[30];
-     printf("\nenter the index: ");
-     scanf("%d",&n);
-    printf("\nenter the station name: ");
-    scanf("%s",name);
-    printf("\nenter the distance of station: ");
-    scanf("%d",&dis);
-
-    AddStation(name,dis,head1,tail1,n);
-   
-}
 // Function to create Purple line
 void CreatePurpleLine() {
-    struct MetroStation* station1 = createStation("Challaghatta",1);
-    struct MetroStation* station2 = createStation("Kengeri",2);
-    struct MetroStation* station3 = createStation("Attiguppe",3);
-    struct MetroStation* station4 = createStation("Vijayanagar",4);
-    struct MetroStation* station5 = createStation("Majestic",5);
-    struct MetroStation* station6 = createStation("Trinity",6);
-    struct MetroStation* station7 = createStation("Indranagar",7);
-    struct MetroStation* station8 = createStation("Hoodi",8);
-    struct MetroStation* station9 = createStation("Hopefarm",9);
-    struct MetroStation* station10 = createStation("Whitefield",10);
+    struct MetroStation* station1 = createStation("Challaghatta",10);
+    struct MetroStation* station2 = createStation("Kengeri",20);
+    struct MetroStation* station3 = createStation("Attiguppe",30);
+    struct MetroStation* station4 = createStation("Vijayanagar",40);
+    struct MetroStation* station5 = createStation("Majestic",50);
+    struct MetroStation* station6 = createStation("Trinity",60);
+    struct MetroStation* station7 = createStation("Indranagar",70);
+    struct MetroStation* station8 = createStation("Hoodi",80);
+    struct MetroStation* station9 = createStation("Hopefarm",90);
+    struct MetroStation* station10 = createStation("Whitefield",100);
 
     head1 = station1;
     station1->next = station2;
@@ -114,16 +55,16 @@ void CreatePurpleLine() {
 
 // Function to create Green line
 void CreateGreenLine() {
-    struct MetroStation* gstation1 = createStation("Nagsandra",1);
-    struct MetroStation* gstation2 = createStation("Goraguntepalya",2);
-    struct MetroStation* gstation3 = createStation("Srirampura",3);
-    struct MetroStation* gstation4 = createStation("Mantri",4);
-    struct MetroStation* gstation5 = createStation("Majestic",5);
-    struct MetroStation* gstation6 = createStation("Lalbhag",6);
-    struct MetroStation* gstation7 = createStation("Jaynagar",7);
-    struct MetroStation* gstation8 = createStation("Bhanshankri",8);
-    struct MetroStation* gstation9 = createStation("Konankunte Cross",9);
-    struct MetroStation* gstation10 = createStation("Silk institute",10);
+    struct MetroStation* gstation1 = createStation("Nagsandra",10);
+    struct MetroStation* gstation2 = createStation("Goraguntepalya",20);
+    struct MetroStation* gstation3 = createStation("Srirampura",30);
+    struct MetroStation* gstation4 = createStation("Mantri",40);
+    struct MetroStation* gstation5 = createStation("Majestic",50);
+    struct MetroStation* gstation6 = createStation("Lalbhag",60);
+    struct MetroStation* gstation7 = createStation("Jaynagar",70);
+    struct MetroStation* gstation8 = createStation("Bhanshankri",80);
+    struct MetroStation* gstation9 = createStation("KonankunteCross",90);
+    struct MetroStation* gstation10 = createStation("SilkInstitute",100);
 
     head2 = gstation1;
     gstation1->next = gstation2;
@@ -141,12 +82,79 @@ void CreateGreenLine() {
 }
 
 
+int countStations(struct MetroStation **head,struct MetroStation **tail) {
+    int count=0;
+    temp=*head;
+    while(temp != *tail){
+        count++;
+        temp=temp->next;
+    }
+    return count;
+}
+
+void AddStation(char name[20],int dis,struct MetroStation** head,struct MetroStation** tail,int n) {
+    struct MetroStation* newStation=createStation(name,dis);
+    temp=*head;
+    if (n==0) {
+        newStation->next=*head;
+        *head=newStation;
+        printf("\nnew station: %s is added at %dth position.",name,n);
+    }
+    else if (n==countStations(head,tail)) {
+        (*tail)->next=newStation;
+        *tail=newStation;
+        printf("\nnew station: %s is added at %dth position.",name,n);
+    }
+    else if (n<countStations(head,tail) && n>0 ) {
+        temp=*head;
+        int pos =1;
+        while (pos<n-1){
+            pos++;
+            temp=temp->next;
+        }
+        temp1=temp->next;
+        newStation->next=temp1;
+        temp->next=newStation;
+        printf("\nnew station: %s is added at %dth position.",name,n);
+    }
+    return;
+}
+
+void newStationDetails(struct MetroStation** head,struct MetroStation** tail) {
+    int pos;
+    int dis ,n;
+    char name[30];
+    printf("enter the new station name: ");
+    scanf("%s",name);
+    printf("enter the distance of station : ");
+    scanf("%d",&dis);
+    printf("\nInsert station at the position: ");
+    printf("\n1.At First \n2.In Middle \n3.At end \n4.Exit");
+    printf("\nEnter your choice : "); 
+    scanf("%d",&pos);
+    switch (pos) {
+        case 1: AddStation(name,dis,head,tail,0);
+                break;
+        case 2: printf("\nenter the index: ");
+                scanf("%d",&n);
+                AddStation(name,dis,head,tail,n);
+                break;
+        case 3: AddStation(name,dis,head,tail,countStations(head,tail));
+                break;
+        default : printf("Enter valid input");
+                  break;
+    }
+    return;
+}
+
+
+
 void displayMetro(){
     printf("\n----------------------------------------------------------------------------------------------------------------------------------------------------");
-     printf("\n|\t\t\t\t\t\t\t\t(PURPLE LINE)\t\t\t\t\t\t\t\t\t\t\t|");
+    printf("\n|\t\t\t\t\t\t\t\t(PURPLE LINE)\t\t\t\t\t\t\t\t\t\t|");
     printf("\n|\t\t\t\t\t\t\t\t  |\t\t\t\t\t\t\t\t\t\t\t|");
-    for(temp=head1;temp<mid1;temp=temp->next){
-    printf("\n|\t\t\t\t\t\t\t\t  %s\t\t\t\t\t\t\t\t\t\t\t|",temp->name);
+    for(temp=head1;temp!=mid1;temp=temp->next){
+    printf("\n|\t\t\t\t\t\t\t\t  %s\t\t\t\t\t\t\t\t\t\t|",temp->name);
     printf("\n|\t\t\t\t\t\t\t\t  |\t\t\t\t\t\t\t\t\t\t\t|");
    }
    printf("\n");
@@ -157,7 +165,7 @@ void displayMetro(){
    printf("|");
    printf("\n|\t\t\t\t\t\t\t\t  |\t\t\t\t\t\t\t\t\t\t\t|");
     for(temp=mid1->next;temp!=NULL;temp=temp->next){
-    printf("\n|\t\t\t\t\t\t\t\t  %s\t\t\t\t\t\t\t\t\t\t\t|",temp->name);
+    printf("\n|\t\t\t\t\t\t\t\t  %s\t\t\t\t\t\t\t\t\t\t|",temp->name);
     printf("\n|\t\t\t\t\t\t\t\t  |\t\t\t\t\t\t\t\t\t\t\t|");
    }
    printf("\n----------------------------------------------------------------------------------------------------------------------------------------------------");
@@ -166,11 +174,12 @@ void displayMetro(){
    
 }
 
+
 int CalculatePrice(char source[],char destination[]){
     int ps1=0,pd2=0,gs1=0,gd2=0,a=0,b=0;
 
     //finding source station
-    //check pirple line
+    //check purple line
     temp=head1;
     while (temp != NULL) {
         if (strcmp(temp->name,source) == 0) {
@@ -179,7 +188,6 @@ int CalculatePrice(char source[],char destination[]){
         }
         temp = temp->next;
     }
-    printf("\n%d",ps1);
 
     //check green line
     temp1=head2;
@@ -190,7 +198,6 @@ int CalculatePrice(char source[],char destination[]){
         }
         temp1 = temp1->next;
     }
-    printf("\n%d",gs1);
 
     //finding destination station
     //check purple line
@@ -202,7 +209,6 @@ int CalculatePrice(char source[],char destination[]){
         }
         temp = temp->next;
     }
-    printf("\n%d",pd2);
 
     //check greenline
     temp1=head2;
@@ -213,7 +219,6 @@ int CalculatePrice(char source[],char destination[]){
         }
         temp1 = temp1->next;
     }
-    printf("\n%d",gd2);
 
     //calucalte price
     int x=mid1->statdis;
@@ -233,13 +238,11 @@ int CalculatePrice(char source[],char destination[]){
     else if (ps1 !=0 && gd2 !=0){
         a=abs(x-ps1);
         b=abs(y-gd2);
-        printf("%d-%d",a,b);
         return a+b;
     }
     else if (gs1 !=0 && pd2 !=0){
         a=abs(x-pd2);
         b=abs(y-gs1);
-        printf("%d-%d",a,b);
         return a+b;
     }
    return 0;
@@ -261,8 +264,7 @@ void buyTicket() {
     }
 
     int count = CalculatePrice(source,destination);
-    printf("\n%d",count);
-    totalCost=10*count;
+    totalCost=0.8*count;
 
     // Display ticket information
     printf("\n\n");
@@ -288,7 +290,7 @@ void free1 (struct MetroStation* head) {
 }
 
 int main() {
-    int choice,ch;
+    int choice,ch,c;
 
     struct MainNode* mnode = (struct MainNode*)malloc(sizeof(struct MainNode));
     mnode->dis=0;
@@ -297,54 +299,94 @@ int main() {
     CreatePurpleLine();
     CreateGreenLine();
     
-    do {
-         printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-         printf("\n~~~~~~ Metro Ticketing Platform Menu ~~~~~~\n");
-         printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
-         printf("1. Display Metro stations\n");
-         printf("2. Buy Ticket\n");
-         printf("3. Add Stations\n");
-         printf("4. Exit\n");
-         printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
-         printf("Enter your choice: ");
-         scanf("%d", &choice); 
-        switch(choice) {
-            case 1: printf("\n\n");
-                    printf("\t\t\t\t\t\t\t\tBANGLORE METRO STATIONS :\n");
-                    displayMetro();
-                    printf("\n\n");
-                    break;
+    printf("\n\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+    printf("\n~~~~~~ Metro Ticketing Platform Menu ~~~~~~\n");
+    printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
+    printf("1. Admin\n");
+    printf("2. User\n");
+    printf("3. Exit\n");
+    printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
+    printf("Enter your choice: ");
+    scanf("%d", &c);
 
-            case 2: buyTicket();
-                    break;
-            case 3: printf("\n1.Purple line\n");
-                    printf("\n2.Green line\n");
-                    printf("\n4.exit");
-                    printf("\nEnter choice: ");
-                    scanf("%d",&ch);
-                    do{
-                    switch(ch)
-                    {
-                    case 1: purpleLine();
-                            break;
-                    case 2: greenLine();
-                            break;
-                    case 3: exit(0);
-                    default:
-                              printf("enter the valid input");
+    //if the person is an admin
+    if (c==1){
+        do {
+            printf("\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+            printf("\n~~~~~~ Metro Ticketing Platform Menu ~~~~~~\n");
+            printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
+            printf("1. Display Metro stations\n");
+            printf("2. Buy Ticket\n");
+            printf("3. Add Stations\n");
+            printf("4. Exit\n");
+            printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
+            printf("Enter your choice: ");
+            scanf("%d", &choice); 
+            switch (choice) {
+                case 1: printf("\n\n");
+                        printf("\t\t\t\t\t\t\t\tBANGLORE METRO STATIONS :\n");
+                        displayMetro();
+                        printf("\n\n");
                         break;
-                    }
-                    }while(choice != 3);
-                    break;
-            case 4: exit(0);
-                  break;
-        }
 
-    }while(choice != 4);
+                case 2: buyTicket();
+                        break;
+
+                case 3: do{
+                            printf("\n~~~Adding Stations~~~");
+                            printf("\n1.Purple line");
+                            printf("\n2.Green line"); 
+                            printf("\n3.Back");
+                            printf("\n~~~~~~~~~~~~~~~~~~~~~~");
+                            printf("\nEnter choice: ");
+                            scanf("%d",&ch);
+
+                            switch(ch){
+                                    case 1: newStationDetails(&head1,&tail1);
+                                            break;
+                                    case 2: newStationDetails(&head2,&tail2);
+                                            break;
+                                    }
+                            }while(ch!=3);
+
+                        }       
+
+           }while(choice != 4);
+    }
+
+    //if the person is user 
+    else if (c==2)
+    {
+        do {
+            printf("\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+            printf("\n~~~~~~ Metro Ticketing Platform Menu ~~~~~~\n");
+            printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
+            printf("1. Display Metro stations\n");
+            printf("2. Buy Ticket\n");
+            printf("3. Exit\n");
+            printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
+            printf("Enter your choice: ");
+            scanf("%d", &choice); 
+            switch (choice) {
+                            case 1: printf("\n\n");
+                                    printf("\t\t\t\t\t\t\t\tBANGLORE METRO STATIONS :\n");
+                                    displayMetro();
+                                    printf("\n\n");
+                                    break;
+
+                            case 2: buyTicket();
+                                    break;
+                        }
+
+
+            }while(choice != 3);
+    }
+    
+
+
     // Free allocated memory
     free1(head1);
     free1(head2);
     
-
     return 0;
 }
