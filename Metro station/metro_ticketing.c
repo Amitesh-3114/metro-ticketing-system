@@ -291,6 +291,7 @@ void free1 (struct MetroStation* head) {
 
 int main() {
     int choice,ch,c;
+    char p[20];
 
     struct MainNode* mnode = (struct MainNode*)malloc(sizeof(struct MainNode));
     mnode->dis=0;
@@ -311,6 +312,10 @@ int main() {
 
     //if the person is an admin
     if (c==1){
+        printf("enter password:");
+        scanf("%s",p);
+        if(strcmp(p,"sashurocks")==0){
+
         do {
             printf("\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
             printf("\n~~~~~~ Metro Ticketing Platform Menu ~~~~~~\n");
@@ -352,6 +357,9 @@ int main() {
                         }       
 
            }while(choice != 4);
+    }else {
+        printf("login failed");
+        }
     }
 
     //if the person is user 
